@@ -90,20 +90,9 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       if ($.UserName === code['userName']) continue;
       console.log(`【${$.UserName}】去助力【${code['userName']}】邀请码：${code['strUserPin']}`);
       await enrollFriend(code['strUserPin']);
-      await $.wait(2000);
+      await $.wait(3000);
       if ($.max) continue
       if (!$.canHelp) break
-    }
-    if ($.canHelp) {
-      console.log(`\n【${$.UserName}】有剩余助力机会，开始助力作者\n`)
-      for (let item of $.authorMyShareIds) {
-        if (!item) continue;
-        console.log(`【${$.UserName}】去助力作者的邀请码：${item}`);
-        await enrollFriend(item);
-        await $.wait(2000);
-        if ($.max) continue
-        if (!$.canHelp) break
-      }
     }
   }
   //拆红包
@@ -229,7 +218,7 @@ function enrollFriend(strPin) {
               $.canHelp = false;//助力火爆
               console.log(`温馨提示：如提示助力火爆，可尝试寻找京东客服`);
             }
-            if (data.iRet === 2013) $.canHelp = false;
+            if (data.iRet === 2013) $.max = true;
             console.log(`助力失败:${data.sErrMsg}\n`);
           }
         }
@@ -309,10 +298,10 @@ function taskurl(function_path, body = '', stk) {
   const deviceId = UA.split(';') && UA.split(';')[4] || ''
   url += `&phoneid=${deviceId}`
   url += `&stepreward_jstoken=${
-    Math.random().toString(36).slice(2, 10) +
-    Math.random().toString(36).slice(2, 10) +
-    Math.random().toString(36).slice(2, 10) +
-    Math.random().toString(36).slice(2, 10)
+      Math.random().toString(36).slice(2, 10) +
+      Math.random().toString(36).slice(2, 10) +
+      Math.random().toString(36).slice(2, 10) +
+      Math.random().toString(36).slice(2, 10)
   }`
   if (stk) {
     url += '&_stk=' + encodeURIComponent(stk)
@@ -320,21 +309,21 @@ function taskurl(function_path, body = '', stk) {
   return {
     'url': url,
     'headers': {
-    'Host': 'wq.jd.com',
-    'Cookie': cookie,
-    'accept': "*/*",
-    'user-agent': UA,
-    'accept-language': 'zh-cn',
-    'referer': `https://wqactive.jd.com/cube/front/activePublish/step_reward/${$.activeId}.html?aid=${$.activeId}`
+      'Host': 'wq.jd.com',
+      'Cookie': cookie,
+      'accept': "*/*",
+      'user-agent': UA,
+      'accept-language': 'zh-cn',
+      'referer': `https://wqactive.jd.com/cube/front/activePublish/step_reward/${$.activeId}.html?aid=${$.activeId}`
     }
   }
 }
 function randomString() {
   return Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10)
+      Math.random().toString(16).slice(2, 10) +
+      Math.random().toString(16).slice(2, 10) +
+      Math.random().toString(16).slice(2, 10) +
+      Math.random().toString(16).slice(2, 10)
 }
 
 function TotalBean() {
